@@ -26,13 +26,14 @@ public class UserRestController implements UsersApi {
 		this.userMapper = userMapper;
 	}
 
-	@PreAuthorize("hasRole(@roles.ADMIN)")
+	@PreAuthorize("hasRole(@roles.ADMIN)") //管理者権限のみアクセス可能
 	@Override
 	public ResponseEntity<UserDto> addUser(UserDto userDto) {
 		HttpHeaders headers = new HttpHeaders();
+		//user登録
 		User user = userMapper.toUser(userDto);
 		this.userService.saveUser(user);
-		return new ResponseEntity<>(userMapper.toUserDto(user), headers, HttpStatus.CREATED);
+		return new ResponseEntity<>(userMapper.toUserDto(user), headers, HttpStatus.CREATED);//CREATED(201)のステータスを出力
 	}
 
 }

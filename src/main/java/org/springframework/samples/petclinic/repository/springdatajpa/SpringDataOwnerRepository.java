@@ -14,9 +14,11 @@ public interface SpringDataOwnerRepository extends OwnerRepository, Repository<O
 
 	@Override
 	@Query("SELECT DISTINCT owner FROM Owner owner left join fetch owner.pets WHERE owner.lastName LIKE :lastName%")
+	//lastnameに引数lastNameが含まれるownerテーブルを取得
 	Collection<Owner> findByLastName(@Param("lastName") String lastName);
 
 	@Override
 	@Query("SELECT owner FROM Owner owner left join fetch owner.pets WHERE owner.id =:id")
+	//idが引数idと一致するownerテーブルを取得
 	Owner findById(@Param("id") int id);
 }

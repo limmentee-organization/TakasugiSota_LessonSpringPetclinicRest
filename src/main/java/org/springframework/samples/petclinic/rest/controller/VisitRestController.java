@@ -38,9 +38,9 @@ public class VisitRestController implements VisitsApi {
 	public ResponseEntity<List<VisitDto>> listVisits() {
 		List<Visit> visits = new ArrayList<>(this.clinicService.findAllVisits());
 		if (visits.isEmpty()) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);//NotFound(404)のエラーを出力
 		}
-		return new ResponseEntity<>(new ArrayList<>(visitMapper.toVisitsDto(visits)), HttpStatus.OK);
+		return new ResponseEntity<>(new ArrayList<>(visitMapper.toVisitsDto(visits)), HttpStatus.OK);//OK(200)のステータスを出力
 	}
 
 	@PreAuthorize("hasRole(@roles.OWNER_ADMIN)")
@@ -48,21 +48,22 @@ public class VisitRestController implements VisitsApi {
 	public ResponseEntity<VisitDto> getVisit(Integer visitId) {
 		Visit visit = this.clinicService.findVisitById(visitId);
 		if (visit == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);//NotFound(404)のエラーを出力
 		}
-		return new ResponseEntity<>(visitMapper.toVisitDto(visit), HttpStatus.OK);
+		return new ResponseEntity<>(visitMapper.toVisitDto(visit), HttpStatus.OK);//OK(200)のステータスを出力
 	}
 
 	@PreAuthorize("hasRole(@roles.OWNER_ADMIN)")
 	@Override
 	public ResponseEntity<VisitDto> addVisit(VisitDto visitDto) {
 		HttpHeaders headers = new HttpHeaders();
+		//登録処理
 		Visit visit = visitMapper.toVisit(visitDto);
 		this.clinicService.saveVisit(visit);
 		visitDto = visitMapper.toVisitDto(visit);
 		headers.setLocation(
 				UriComponentsBuilder.newInstance().path("/api/visits/{id}").buildAndExpand(visit.getId()).toUri());
-		return new ResponseEntity<>(visitDto, headers, HttpStatus.CREATED);
+		return new ResponseEntity<>(visitDto, headers, HttpStatus.CREATED);//CREATED(201)のステータスを出力
 	}
 
 	@PreAuthorize("hasRole(@roles.OWNER_ADMIN)")
@@ -70,12 +71,13 @@ public class VisitRestController implements VisitsApi {
 	public ResponseEntity<VisitDto> updateVisit(Integer visitId, VisitDto visitDto) {
 		Visit currentVisit = this.clinicService.findVisitById(visitId);
 		if (currentVisit == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);//NotFound(404)のエラーを出力
 		}
+		//更新処理
 		currentVisit.setDate(visitDto.getDate());
 		currentVisit.setDescription(visitDto.getDescription());
 		this.clinicService.saveVisit(currentVisit);
-		return new ResponseEntity<>(visitMapper.toVisitDto(currentVisit), HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>(visitMapper.toVisitDto(currentVisit), HttpStatus.NO_CONTENT);//NOCONTENT(204)のステータスを出力
 	}
 
 	@PreAuthorize("hasRole(@roles.OWNER_ADMIN)")
@@ -84,10 +86,11 @@ public class VisitRestController implements VisitsApi {
 	public ResponseEntity<VisitDto> deleteVisit(Integer visitId) {
 		Visit visit = this.clinicService.findVisitById(visitId);
 		if (visit == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);//NotFound(404)のエラーを出力
 		}
+		//削除処理
 		this.clinicService.deleteVisit(visit);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);//NOCONTENT(204)のステータスを出力
 	}
 
 }

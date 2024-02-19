@@ -29,54 +29,54 @@ public class PetRestController implements PetsApi {
 		this.petMapper = petMapper;
 	}
 
-	@PreAuthorize("hasRole(@roles.OWNER_ADMIN)")
+	@PreAuthorize("hasRole(@roles.OWNER_ADMIN)") //owner管理者権限のみアクセス可能
 	@Override
 	public ResponseEntity<PetDto> getPet(Integer petId) {
 		PetDto pet = petMapper.toPetDto(this.clinicService.findPetById(petId));
 		if (pet == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);//NotFound(404)のエラーを出力
 		}
-		return new ResponseEntity<>(pet, HttpStatus.OK);
+		return new ResponseEntity<>(pet, HttpStatus.OK);//OK(200)のステータスを出力
 	}
 
-	@PreAuthorize("hasRole(@roles.OWNER_ADMIN)")
+	@PreAuthorize("hasRole(@roles.OWNER_ADMIN)") //owner管理者権限のみアクセス可能
 	@Override
 	public ResponseEntity<List<PetDto>> listPets() {
 		List<PetDto> pets = new ArrayList<>(petMapper.toPetsDto(this.clinicService.findAllPets()));
 		if (pets.isEmpty())
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		return new ResponseEntity<>(pets, HttpStatus.OK);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);//NotFound(404)のエラーを出力
+		return new ResponseEntity<>(pets, HttpStatus.OK);//OK(200)のステータスを出力
 	}
 
-	@PreAuthorize("hasRole(@roles.OWNER_ADMIN)")
+	@PreAuthorize("hasRole(@roles.OWNER_ADMIN)") //owner管理者権限のみアクセス可能
 	@Override
 	public ResponseEntity<PetDto> updatePet(Integer petId, PetDto petDto) {
 		Pet currentPet = this.clinicService.findPetById(petId);
 		if (currentPet == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);//NotFound(404)のエラーを出力
 		}
 		currentPet.setBirthDate(petDto.getBirthDate());
 		currentPet.setName(petDto.getName());
 		currentPet.setType(petMapper.toPetType(petDto.getType()));
 		this.clinicService.savePet(currentPet);
-		return new ResponseEntity<>(petMapper.toPetDto(currentPet), HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>(petMapper.toPetDto(currentPet), HttpStatus.NO_CONTENT);//NOCONTENT(204)のステータスを出力
 	}
 
-	@PreAuthorize("hasRole(@roles.OWNER_ADMIN)")
+	@PreAuthorize("hasRole(@roles.OWNER_ADMIN)") //owner管理者権限のみアクセス可能
 	@Override
 	public ResponseEntity<PetDto> deletePet(Integer petId) {
 		Pet pet = this.clinicService.findPetById(petId);
 		if (pet == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);//NotFound(404)のエラーを出力
 		}
 		this.clinicService.deletePet(pet);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);//NOCONTENT(204)のステータスを出力
 	}
 
-	@PreAuthorize("hasRole(@roles.OWNER_ADMIN)")
+	@PreAuthorize("hasRole(@roles.OWNER_ADMIN)") //owner管理者権限のみアクセス可能
 	@Override
 	public ResponseEntity<PetDto> addPet(PetDto petDto) {
 		this.clinicService.savePet(petMapper.toPet(petDto));
-		return new ResponseEntity<>(petDto, HttpStatus.OK);
+		return new ResponseEntity<>(petDto, HttpStatus.OK);//OK(200)のステータスを出力　なぜCREATEではない？
 	}
 }

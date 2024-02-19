@@ -9,6 +9,7 @@ import org.springframework.samples.petclinic.rest.dto.VisitDto;
 import org.springframework.samples.petclinic.rest.dto.VisitFieldsDto;
 
 @Mapper(uses = PetMapper.class)
+//PetMapperのロジック定義を指定
 public interface VisitMapper {
 	Visit toVisit(VisitDto visitDto);
 

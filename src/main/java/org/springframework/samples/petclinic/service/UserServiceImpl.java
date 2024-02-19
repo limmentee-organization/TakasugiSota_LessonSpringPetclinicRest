@@ -16,15 +16,15 @@ public class UserServiceImpl implements UserService {
 	public void saveUser(User user) {
 
 		if (user.getRoles() == null || user.getRoles().isEmpty())
-			throw new IllegalArgumentException("User must have at least a role set!");
+			throw new IllegalArgumentException("User must have at least a role set!");//roleがセットされていない場合、引数エラー
 		for (Role role : user.getRoles()) {
 			if (!role.getName().startsWith("ROLE_"))
-				role.setName("ROLE_" + role.getName());
+				role.setName("ROLE_" + role.getName());//ROLE_から始まるようにする
 			if (role.getUser() == null)
-				role.setUser(user);
+				role.setUser(user);//roleにuser情報がなかったらセットする
 		}
 
-		userRepository.save(user);
+		userRepository.save(user);//user情報を登録
 	}
 
 }
