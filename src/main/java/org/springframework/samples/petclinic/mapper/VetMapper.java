@@ -8,6 +8,7 @@ import org.springframework.samples.petclinic.rest.dto.VetDto;
 import org.springframework.samples.petclinic.rest.dto.VetFieldsDto;
 
 @Mapper(uses = SpecialtyMapper.class)
+//SpecialtyMapperのロジック定義を指定
 public interface VetMapper {
 
 	Vet toVet(VetDto vetDto);

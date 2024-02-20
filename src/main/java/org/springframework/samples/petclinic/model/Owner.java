@@ -32,7 +32,7 @@ public class Owner extends Person {
 
 	@Column(name = "telephone")
 	@NotEmpty
-	@Digits(fraction = 0, integer = 10)
+	@Digits(fraction = 0, integer = 10) //少数桁数0、整数桁数10
 	private String telephone;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
@@ -75,8 +75,8 @@ public class Owner extends Person {
 
 	public List<Pet> getPets() {
 		List<Pet> sortedPets = new ArrayList<>(getPetsInternal());
-		PropertyComparator.sort(sortedPets, new MutableSortDefinition("name", true, true));
-		return Collections.unmodifiableList(sortedPets);
+		PropertyComparator.sort(sortedPets, new MutableSortDefinition("name", true, true));//昇順ソート(大文字小文字無視)
+		return Collections.unmodifiableList(sortedPets);//変更不可のリスト
 	}
 
 	public void setPets(List<Pet> pets) {

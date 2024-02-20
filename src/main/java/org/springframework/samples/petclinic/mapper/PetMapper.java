@@ -10,7 +10,7 @@ import org.springframework.samples.petclinic.rest.dto.PetDto;
 import org.springframework.samples.petclinic.rest.dto.PetFieldsDto;
 import org.springframework.samples.petclinic.rest.dto.PetTypeDto;
 
-@Mapper
+@Mapper 
 public interface PetMapper {
 
 	@Mapping(source = "owner.id", target = "ownerId")
@@ -24,7 +24,7 @@ public interface PetMapper {
 
 	Pet toPet(PetFieldsDto petFieldsDto);
 
-	PetTypeDto tp¥oPetTypeDto(PetType petType);
+	PetTypeDto toPetTypeDto(PetType petType);
 
 	PetType toPetType(PetTypeDto petTypeDto);
 

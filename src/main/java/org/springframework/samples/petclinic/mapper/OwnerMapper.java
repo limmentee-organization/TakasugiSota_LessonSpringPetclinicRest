@@ -8,7 +8,8 @@ import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.rest.dto.OwnerDto;
 import org.springframework.samples.petclinic.rest.dto.OwnerFieldsDto;
 
-@Mapper(uses = PetMapper.class)
+@Mapper(uses = PetMapper.class) //同名のフィールドを持つクラスをコピーする。MybatisのMapperとは別物
+//PetMapperのロジック定義を指定
 public interface OwnerMapper {
 
 	OwnerDto toOwnerDto(Owner owner);

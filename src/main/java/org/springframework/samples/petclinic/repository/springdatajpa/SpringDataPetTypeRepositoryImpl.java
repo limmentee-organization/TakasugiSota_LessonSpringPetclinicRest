@@ -19,18 +19,18 @@ public class SpringDataPetTypeRepositoryImpl implements PetTypeRepositoryOverrid
 	@SuppressWarnings("unchecked")
 	@Override
 	public void delete(PetType petType) {
-		this.em.remove(this.em.contains(petType) ? petType : this.em.merge(petType));
+		this.em.remove(this.em.contains(petType) ? petType : this.em.merge(petType));//引数のpettypeがemに存在していたらそのまま削除、なければemにマージして削除
 		Integer petTypeId = petType.getId();
 
-		List<Pet> pets = this.em.createQuery("SELECT pet FROM Pet pet WHERE type.id=" + petTypeId).getResultList();
+		List<Pet> pets = this.em.createQuery("SELECT pet FROM Pet pet WHERE type.id=" + petTypeId).getResultList();//type.idが一致するPetテーブルを取得
 		for (Pet pet : pets) {
 			List<Visit> visits = pet.getVisits();
 			for (Visit visit : visits) {
-				this.em.createQuery("DELETE FROM Visit visit WHERE id=" + visit.getId()).executeUpdate();
+				this.em.createQuery("DELETE FROM Visit visit WHERE id=" + visit.getId()).executeUpdate();//Visit削除クエリを実行するためのQueryのインスタンスを作成し実行
 			}
-			this.em.createQuery("DELETE FROM Pet pet WHERE id=" + pet.getId()).executeUpdate();
+			this.em.createQuery("DELETE FROM Pet pet WHERE id=" + pet.getId()).executeUpdate();//Pet削除クエリを実行するためのQueryのインスタンスを作成し実行
 		}
-		this.em.createQuery("DELETE FROM PetType pettype WHERE id=" + petTypeId).executeUpdate();
+		this.em.createQuery("DELETE FROM PetType pettype WHERE id=" + petTypeId).executeUpdate();//PetType削除クエリを実行するためのQueryのインスタンスを作成し実行
 	}
 
 }

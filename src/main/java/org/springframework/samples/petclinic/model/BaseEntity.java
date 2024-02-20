@@ -22,7 +22,7 @@ public class BaseEntity {
 		this.id = id;
 	}
 
-	@JsonIgnore
+	@JsonIgnore //JSON変換対象外
 	public boolean isNew() {
 		return this.id == null;
 	}

@@ -15,5 +15,6 @@ public interface SpringDataPetRepository extends PetRepository, Repository<Pet, 
 
 	@Override
 	@Query("SELECT ptype FROM PetType ptype ORDER BY ptype.name")
+	//pettypeテーブルをptype.nameの昇順で取得
 	List<PetType> findPetTypes() throws DataAccessException;
 }

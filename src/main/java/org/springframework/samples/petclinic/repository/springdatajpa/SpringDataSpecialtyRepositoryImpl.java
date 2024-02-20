@@ -14,10 +14,10 @@ public class SpringDataSpecialtyRepositoryImpl implements SpecialtyRepositoryOve
 
 	@Override
 	public void delete(Specialty specialty) {
-		this.em.remove(this.em.contains(specialty) ? specialty : this.em.merge(specialty));
+		this.em.remove(this.em.contains(specialty) ? specialty : this.em.merge(specialty));//引数のspecialtyがemに存在していたらそのまま削除、なければemにマージして削除
 		Integer specId = specialty.getId();
-		this.em.createNativeQuery("DELETE FROM vet_specialties WHERE specialty_id=" + specId).executeUpdate();
-		this.em.createQuery("DELETE FROM Specialty specialty WHERE id=" + specId).executeUpdate();
+		this.em.createNativeQuery("DELETE FROM vet_specialties WHERE specialty_id=" + specId).executeUpdate();//vet_pecialty削除クエリを実行するためのQueryのインスタンスを作成し実行
+		this.em.createQuery("DELETE FROM Specialty specialty WHERE id=" + specId).executeUpdate();//Specialty削除クエリを実行するためのQueryのインスタンスを作成し実行
 	}
 
 }
